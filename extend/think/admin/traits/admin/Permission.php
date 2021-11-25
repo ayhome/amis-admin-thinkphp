@@ -17,7 +17,7 @@ trait Permission
     $role_type = input('type');
     $psotList = input('code');
 
-    $Permission = new \app\admin\model\Permission();
+    $Permission = new \think\admin\model\Permission();
     $Permission->where('role_type',$role_type)->delete();
 
     //先删除多余的
@@ -60,12 +60,12 @@ trait Permission
   public function getAllMenu()
   {
     $PHPTree = new \think\admin\PHPTree();
-    $Menu = new \app\admin\model\Menu();
-    $Permission = new \app\admin\model\Permission();
-    $MenuRule = new \app\admin\model\MenuRule();
+    $Menu = new \think\admin\model\Menu();
+    $Permission = new \think\admin\model\Permission();
+    $MenuRule = new \think\admin\model\MenuRule();
 
     $role_type = input('type');
-    $Permission = new \app\admin\model\Permission();
+    $Permission = new \think\admin\model\Permission();
     $plist = $Permission->where('role_type',$role_type)->select();
     $value_list = [];
     foreach ($plist as $k) {
@@ -102,7 +102,7 @@ trait Permission
     $list = $PHPTree->makeTree($list);
 
     
-    $data['list'] = $list;
+    $data['items'] = $list;
     $data['value'] = implode(",",$value_list);
     // $data['value'] = [235];
     return $this->doSuccess('ok',$data);

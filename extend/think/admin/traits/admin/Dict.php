@@ -10,6 +10,10 @@ use think\admin\Time;
 
 trait Dict
 {
+  public function getModel()
+  {
+    return new \think\admin\model\Dict();
+  }
   public function _filter($request)
   {
     $searchKey = input('searchKey');
@@ -43,7 +47,7 @@ trait Dict
 
   public function getDict()
   {
-    $Dict = new \app\admin\model\Dict();
+    $Dict = $this->getModel();
     $name = input('name');
     $query = [];
     if ($name){
@@ -117,8 +121,5 @@ trait Dict
               ->select()->toArray();
     return $this->doSuccess('ok',$list);
   }
-  public function getModel()
-  {
-    return new \app\admin\model\Dict();
-  }
+  
 }

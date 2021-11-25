@@ -15,13 +15,14 @@ trait Login
     if (!$account || !$password) {
       return $this->doError('请输入登录信息');
     }
+    $Admin = new \think\admin\model\Admin();
     
-    $user = Db::name('admin')
+    $user = $Admin
           ->where('account',$account)
           ->where('password',md5($password))
-          ->find();
+          ->findOrEmpty();
     if ($user) {
-      if ($user['status'] <= 0) {
+      if ($user->status <= 0) {
         return $this->doError('该账户被禁用');
       }
       $log = array();
@@ -38,10 +39,10 @@ trait Login
       $log['login_time'] = time();
       $log['token_time'] = time();
       $log['login_ip'] =  $_SERVER["REMOTE_ADDR"];
-      Db::name('admin')->where('id',$user['id'])->update($log);
+      $Admin->where('id',$user['id'])->update($log);
       $user['token_time'] = $log['token_time'];
-      $user['token'] = $log['token'];
-      $r = Db::name('admin')
+      // $user['token'] = $log['token'];
+      $r = $Admin
                   // ->field('id,head,token,token_time,type,account,name,mobile')
                   ->where('account',$account)
                   ->where('password',md5($password))

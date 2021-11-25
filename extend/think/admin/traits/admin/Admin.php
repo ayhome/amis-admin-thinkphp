@@ -41,7 +41,7 @@ trait Admin
   }
   public function getAll()
   {
-    $Admin = new \app\admin\model\Admin();
+    $Admin = new \think\admin\model\Admin();
 
     $request = $this->request;
     $query = [];
@@ -89,6 +89,13 @@ trait Admin
     $vo = Db::name('admin')->where('id',$id)->update($up);
     return $this->doSuccess('ok');
     # code...
+  }
+
+  public function profile()
+  {
+    $model = $this->getModel();
+    $vo = $model->where('id',request()->admin_id)->find();
+    return $this->doSuccess('ok',$vo);
   }
 
   public function doProfile()
